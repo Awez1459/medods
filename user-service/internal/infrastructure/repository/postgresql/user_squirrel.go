@@ -13,21 +13,18 @@ import (
 
 const (
 	userTableName              = "users"
-	userEstablishmentTableName = "users_establishment"
 	userServiceName            = "userService"
 	userSpanRepoPrefix         = "userRepo"
 )
 
 type userRepo struct {
 	userTableName              string
-	userEstablishmentTableName string
 	db                         *postgres.PostgresDB
 }
 
 func NewUserRepo(db *postgres.PostgresDB) *userRepo {
 	return &userRepo{
 		userTableName:              userTableName,
-		userEstablishmentTableName: userEstablishmentTableName,
 		db:                         db,
 	}
 }
