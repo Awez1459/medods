@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    access_token TEXT,
     refresh_token TEXT,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP,
