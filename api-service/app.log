@@ -1,0 +1,5 @@
+2024-08-26T09:22:49.687+0500	INFO	app/main.go:30	Listen: 	{"address": "api-service:8080"}
+2024-08-26T09:22:49.688+0500	ERROR	app/main.go:32	app run	{"error": "listen tcp: lookup api-service on 127.0.0.53:53: server misbehaving"}
+main.main.func1
+	/home/awez/projects/medods/api-service/cmd/app/main.go:32
+2024-08-26T09:22:57.996+0500	INFO	app/main.go:41	api gateway service stops

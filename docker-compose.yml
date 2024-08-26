@@ -1,0 +1,74 @@
+version: "3.8"
+
+services:
+  user-service:
+    container_name: user-service
+    restart: always
+    build: ./user-service
+    ports:
+      - "4321:4321"
+    environment:
+      POSTGRES_DB: regauth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty
+    depends_on:
+      - postgres
+    networks:
+      - new
+
+  api-gateway:
+    container_name: api-gateway
+    restart: always
+    build: ./api-gateway
+    ports:
+      - "1234:1234"
+    environment:
+      POSTGRES_DB: regauth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty
+    depends_on:
+      - postgres
+      - user-service
+    networks:
+      - new
+
+  postgres:
+    build:
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      POSTGRES_DB: regauth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty
+    networks:
+      - new
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  migrate:
+    image: migrate/migrate
+    networks:
+      - new
+    volumes:
+      - ./migrations:/migrations
+    command: -database postgres://postgres:qwerty@postgres:5432/regauth?sslmode=disable -path /migrations up
+    depends_on:
+      - postgres
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6380:6380"
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - "2181:2181"
+    networks:
+      - new
+
+networks:
+  new:
+    driver: bridge
+
+volumes:
+  pgdata:

@@ -1,0 +1,22 @@
+p, unauthorized, /v1/swagger/*,  GET
+p, unauthorized, /v1/users/register, POST
+p, unauthorized, /v1/users/verify, GET
+p, unauthorized, /v1/users/login, POST
+p, unauthorized, /v1/admins/login, POST
+p, unauthorized, /v1/users/set/{email}, GET
+p, unauthorized, /v1/users/code, GET
+p, unauthorized, /v1/users/password, PUT
+p, unauthorized, /v1/token/:refresh, GET
+
+p, user, /v1/users/{id}, GET
+p, user, /v1/users, PUT
+p, user, /v1/media/user-photo, POST
+
+p, admin, /v1/users, POST
+p, admin, /v1/users/list, GET
+
+p, admin, /v1/users/list/deleted, GET
+p, admin, /v1/users/{id}, DELETE
+
+g, admin, user, *
+g, admin, unauthorized, *
