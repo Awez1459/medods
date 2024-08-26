@@ -1,5 +1,3 @@
-//
-
 package tokens
 
 import (
@@ -40,16 +38,9 @@ func (jwtHandler *JwtHandler) GenerateJwt() (access, refresh string, err error) 
 	claims["iat"] = time.Now().Unix()
 	claims["role"] = jwtHandler.Role
 
-	// cfg, err := config.NewConfig()
-	// if err != nil {
-	// 	logger.Error(err)
-	// 	return
-	// }
-
 	access, err = accessToken.SignedString([]byte(jwtHandler.SigninKey))
 	if err != nil {
 		jwtHandler.Log.Error("error generating access token", logger.Error(err))
-		// logger.Error(err)
 		return
 	}
 
@@ -61,7 +52,6 @@ func (jwtHandler *JwtHandler) GenerateJwt() (access, refresh string, err error) 
 
 	refresh, err = refreshToken.SignedString([]byte(jwtHandler.SigninKey))
 	if err != nil {
-		// jwtHandler.Log.Error("error generating refresh token", logger.Error(err))
 		logger.Error(err)
 		return
 	}
@@ -69,31 +59,6 @@ func (jwtHandler *JwtHandler) GenerateJwt() (access, refresh string, err error) 
 	return access, refresh, nil
 }
 
-//// ExtractClaims ...
-//func (jwtHandler *JwtHandler) ExtractClaims() (jwt.MapClaims, error) {
-//	var (
-//		token *jwt.Token
-//		err   error
-//	)
-//
-//	token, err = jwt.Parse(jwtHandler.Token, func(t *jwt.Token) (interface{}, error) {
-//		return []byte(jwtHandler.SigninKey), nil
-//	})
-//
-//	if err != nil {
-//		return nil, err
-//	}
-//
-//	claims, ok := token.Claims.(jwt.MapClaims)
-//	if !(ok && token.Valid) {
-//		jwtHandler.Log.Error("invalid jwt token")
-//		return nil, err
-//	}
-//
-//	return claims, nil
-//}
-
-// ExtractClaim extracts claims from given token
 func ExtractClaim(tokenStr string, signingKey []byte) (jwt.MapClaims, error) {
 	var (
 		token *jwt.Token

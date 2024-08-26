@@ -2,7 +2,7 @@
 export
 
 CURRENT_DIR=$(shell pwd)
-APP=evrone_api_gateway
+APP=evrone_api_service
 CMD_DIR=./cmd
 
 .DEFAULT_GOAL = build

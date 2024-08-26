@@ -9,7 +9,6 @@ import (
 	"medods/api-service/internal/pkg/config"
 	"medods/api-service/internal/pkg/logger"
 	"medods/api-service/internal/pkg/postgres"
-	"medods/api-service/internal/pkg/redis"
 	"medods/api-service/internal/usecase/app_version"
 	"net/http"
 	"time"
@@ -24,7 +23,6 @@ type App struct {
 	Config     *config.Config
 	Logger     *zap.Logger
 	DB         *postgres.PostgresDB
-	RedisDB    *redis.RedisDB
 	server     *http.Server
 	Enforcer   *casbin.Enforcer
 	Clients    grpcService.ServiceClient
@@ -40,12 +38,6 @@ func NewApp(cfg config.Config) (*App, error) {
 
 	// postgres init
 	db, err := postgres.New(&cfg)
-	if err != nil {
-		return nil, err
-	}
-
-	// redis init
-	redisdb, err := redis.New(&cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +64,6 @@ func NewApp(cfg config.Config) (*App, error) {
 		Config:     &cfg,
 		Logger:     logger,
 		DB:         db,
-		RedisDB:    redisdb,
 		Enforcer:   enforcer,
 		appVersion: appVersionUseCase,
 	}, nil

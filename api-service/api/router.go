@@ -40,9 +40,7 @@ type RouteOption struct {
 // @in header
 // @name Authorization
 func NewRoute(option RouteOption) *gin.Engine {
-
 	router := gin.New()
-
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
@@ -69,20 +67,8 @@ func NewRoute(option RouteOption) *gin.Engine {
 	router.Static("/media", "./media")
 	api := router.Group("/v1")
 
-	// USER METHODS
-	api.POST("/users", HandlerV1.Create)
-	api.GET("/users/:id", HandlerV1.Get)
-	api.GET("/users/list", HandlerV1.ListUsers)
-	api.GET("/users/list/deleted", HandlerV1.ListDeletedUsers)
-	api.PUT("/users", HandlerV1.Update)
-	api.DELETE("/users/:id", HandlerV1.Delete)
-	api.GET("/users/token", HandlerV1.GetByToken)
-
 	// AUTH METHODS
-	api.POST("/users/register", HandlerV1.RegisterUser)
-	api.GET("/users/verify", HandlerV1.Verification)
-	api.POST("/users/login", HandlerV1.Login)
-	api.POST("/admins/login", HandlerV1.LoginAdmin)
+	api.POST("/users/login", HandlerV1.Token)
 	api.GET("/token/:refresh", HandlerV1.UpdateToken)
 
 	url := ginSwagger.URL("swagger/doc.json")
